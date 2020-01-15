@@ -1,11 +1,12 @@
 'use strict';
 
-let num = $('form').val();
+
 
 function callGetDogImage(){
   $('form').submit(event => {
-    event.preventDefault();  
-    console.log(num);
+    event.preventDefault();
+    let num = $('#textInput').val();  
+    getDogImage(num);
   });
 
 }
