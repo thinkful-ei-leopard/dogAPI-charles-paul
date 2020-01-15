@@ -1,9 +1,11 @@
 
 
+let num = 0;
+
 function callGetDogImage(){
   $('form').submit(event => {
     event.preventDefault();
-    let num = $('#textInput').val();  
+    num = $('#textInput').val();
     getDogImage(num);
   });
 }
@@ -15,21 +17,19 @@ function getDogImage(num) {
       displayResults(responseJson))
     .catch(error => alert('Something went wrong. Try again later.'));
 }
- 
 
 function displayResults(responseJson) {
-  //replace the existing image with the new one
 
-  // console.log(responseJson.message);
+  for (let i = 0; i < responseJson.message.length; i++) {
+    $('.results').append(
+      `<img src="${responseJson.message[i]}" class="results-img" alt="dog${i}">`
+    );
+  }
 
-  // let dogResults = responseJson.message.forEach(dog => )
+  $('.results').removeClass('hidden');
 
-  $('.results').html(
-    `<img src="${responseJson.message}" class="results-img">`
-  );
-  //display the results section
-  // $('.results').removeClass('hidden');
-
+  console.log(responseJson);
+ 
 }
 
 callGetDogImage();
