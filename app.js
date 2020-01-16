@@ -1,30 +1,34 @@
 
 
-let num = 0;
+let breed = '';
+
 
 function callGetDogImage(){
   $('form').submit(event => {
     event.preventDefault();
-    num = $('#textInput').val();
-    getDogImage(num);
+    breed = $('#textInput').val();
+    getDogImage(breed);
   });
 }
 
-function getDogImage(num) {
-  fetch(`https://dog.ceo/api/breeds/image/random/${num}`)
-    .then(response => response.json())
+function getDogImage(breed) {
+  fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+    .then(response => {
+      if (response.ok){
+        return response.json();
+      }
+      throw new Error(response.status);
+    })
     .then(responseJson => 
       displayResults(responseJson))
-    .catch(error => alert('Something went wrong. Try again later.'));
+    .catch(error => alert('Something went wrong: Not a valid breed'));
 }
 
 function displayResults(responseJson) {
-
-  for (let i = 0; i < responseJson.message.length; i++) {
-    $('.results').append(
-      `<img src="${responseJson.message[i]}" class="results-img" alt="dog${i}">`
-    );
-  }
+  $('.results').append(
+    `<img src="${responseJson.message}" class="results-img" alt="dog">`
+  );
+  
 
   $('.results').removeClass('hidden');
 
